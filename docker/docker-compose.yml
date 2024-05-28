@@ -8,7 +8,6 @@ services:
     environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: secret
-      POSTGRES_DB: default
     ports:
       - 5432:5432
 
