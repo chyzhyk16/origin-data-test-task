@@ -31,6 +31,9 @@ class Company implements JsonSerializable
     #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'company')]
     private Collection $employees;
 
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'company')]
+    private Collection $projects;
+
     public function __construct(
         string $name,
         string $email,
@@ -42,6 +45,7 @@ class Company implements JsonSerializable
         $this->phone = $phone;
         $this->address = $address;
         $this->employees = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,6 +104,11 @@ class Company implements JsonSerializable
     public function getEmployees(): Collection
     {
         return $this->employees;
+    }
+
+    public function getProjects(): Collection
+    {
+        return $this->projects;
     }
 
     public function jsonSerialize(): array
