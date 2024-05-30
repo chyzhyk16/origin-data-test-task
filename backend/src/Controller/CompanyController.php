@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Components\Response\StructuredJsonResponse;
 use App\DTO\CompanyDTO;
 use App\Service\CompanyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,13 +23,13 @@ class CompanyController extends AbstractController
     #[Route('', methods: ['GET'])]
     public function list(): Response
     {
-        return $this->json($this->companyService->getAll());
+        return new StructuredJsonResponse($this->companyService->getAll());
     }
 
     #[Route('/{id<\d+>}', methods: ['GET'])]
     public function get(int $id): Response
     {
-        return $this->json($this->companyService->getById($id));
+        return new StructuredJsonResponse($this->companyService->getById($id));
     }
 
     #[Route('', methods: ['POST'])]
@@ -37,7 +38,7 @@ class CompanyController extends AbstractController
     ): Response {
         $company = $this->companyService->create($dto);
 
-        return $this->json($company);
+        return new StructuredJsonResponse($company);
     }
 
     #[Route('/{id<\d+>}', methods: ['PUT'])]
@@ -49,7 +50,7 @@ class CompanyController extends AbstractController
 
         $company = $this->companyService->update($dto);
 
-        return $this->json($company);
+        return new StructuredJsonResponse($company);
     }
 
     #[Route('/{id<\d+>}', methods: ['DELETE'])]
@@ -57,6 +58,6 @@ class CompanyController extends AbstractController
     {
         $this->companyService->deleteById($id);
 
-        return $this->json([]);
+        return new StructuredJsonResponse([]);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Components\Response\StructuredJsonResponse;
 use App\DTO\ProjectDTO;
 use App\Service\ProjectService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,13 +24,13 @@ class ProjectController extends AbstractController
     #[Route('', methods: ['GET'])]
     public function list(): Response
     {
-        return $this->json($this->projectService->getAll());
+        return new StructuredJsonResponse($this->projectService->getAll());
     }
 
     #[Route('/{id<\d+>}', methods: ['GET'])]
     public function get(int $id): Response
     {
-        return $this->json($this->projectService->getById($id));
+        return new StructuredJsonResponse($this->projectService->getById($id));
     }
 
     #[Route('', methods: ['POST'])]
@@ -38,7 +39,7 @@ class ProjectController extends AbstractController
     ): Response {
         $project = $this->projectService->create($dto);
 
-        return $this->json($project);
+        return new StructuredJsonResponse($project);
     }
 
     #[Route('/{id<\d+>}', methods: ['PUT'])]
@@ -50,7 +51,7 @@ class ProjectController extends AbstractController
 
         $project = $this->projectService->update($dto);
 
-        return $this->json($project);
+        return new StructuredJsonResponse($project);
     }
 
     #[Route('/{id<\d+>}', methods: ['DELETE'])]
@@ -58,6 +59,6 @@ class ProjectController extends AbstractController
     {
         $this->projectService->deleteById($id);
 
-        return $this->json([]);
+        return new StructuredJsonResponse([]);
     }
 }

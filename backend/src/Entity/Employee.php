@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
+use App\Components\Entity\EntityDateTime;
 use App\Repository\EmployeeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Employee implements JsonSerializable
 {
+    use EntityDateTime;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Components\Response\StructuredJsonResponse;
 use App\DTO\EmployeeDTO;
 use App\Service\EmployeeService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,13 +23,13 @@ class EmployeeController extends AbstractController
     #[Route('', methods: ['GET'])]
     public function list(): Response
     {
-        return $this->json($this->employeeService->getAll());
+        return new StructuredJsonResponse($this->employeeService->getAll());
     }
 
     #[Route('/{id<\d+>}', methods: ['GET'])]
     public function get(int $id): Response
     {
-        return $this->json($this->employeeService->getById($id));
+        return new StructuredJsonResponse($this->employeeService->getById($id));
     }
 
     #[Route('', methods: ['POST'])]
@@ -37,7 +38,7 @@ class EmployeeController extends AbstractController
     ): Response {
         $employee = $this->employeeService->create($dto);
 
-        return $this->json($employee);
+        return new StructuredJsonResponse($employee);
     }
 
     #[Route('/{id<\d+>}', methods: ['PUT'])]
@@ -49,7 +50,7 @@ class EmployeeController extends AbstractController
 
         $employee = $this->employeeService->update($dto);
 
-        return $this->json($employee);
+        return new StructuredJsonResponse($employee);
     }
 
     #[Route('/{id<\d+>}', methods: ['DELETE'])]
@@ -57,6 +58,6 @@ class EmployeeController extends AbstractController
     {
         $this->employeeService->deleteById($id);
 
-        return $this->json([]);
+        return new StructuredJsonResponse([]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Components\Entity\EntityDateTime;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,8 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Company implements JsonSerializable
 {
+    use EntityDateTime;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -28,10 +31,10 @@ class Company implements JsonSerializable
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'company')]
+    #[ORM\OneToMany(targetEntity: Employee::class, mappedBy: 'company', cascade: ['remove'])]
     private Collection $employees;
 
-    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'company')]
+    #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'company', cascade: ['remove'])]
     private Collection $projects;
 
     public function __construct(
