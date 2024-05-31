@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Company;
 use App\Entity\Employee;
 use App\Entity\Project;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -38,6 +39,15 @@ class AppFixtures extends Fixture
             $company
         );
         $manager->persist($project);
+
+        // Create User
+        $user = new User(
+            'test@test.com',
+            password_hash('111111', PASSWORD_DEFAULT),
+            'Test',
+            'Name'
+        );
+        $manager->persist($user);
 
         $manager->flush();
     }
